@@ -1,5 +1,5 @@
 #Reading in the data ----
-deck <- read.csv("~/Sites/Code Learning Projects/R Learning/HandsOnProgrammingInR/deck.csv", stringsAsFactors=FALSE)
+deck <- read.csv("deck.csv", stringsAsFactors=FALSE)
 
 head(deck, 10)
 
@@ -96,3 +96,4 @@ deck5[facecard, ]
 # Each ace has a value of 11 or 1, depending on the final results of the game. Set the Aces to NA as we don't know the value of ace up front
 deck5$value[deck5$face == "ace"] <- NA
 head(deck5, 13)
+
