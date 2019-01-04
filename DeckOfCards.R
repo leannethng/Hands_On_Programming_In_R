@@ -97,3 +97,52 @@ deck5[facecard, ]
 deck5$value[deck5$face == "ace"] <- NA
 head(deck5, 13)
 
+
+#Using environments to remove the top card from the deck
+DECK <- deck
+#deck <- deck[-1,]
+
+#Deal then shuffle deck -----
+deal <- function(){
+    card <- deck[1, ]
+    assign("deck", deck[-1, ], envir = globalenv())
+    card
+}
+deal()
+
+#Shuffle now adds the cards back into the deck using the clean DECK
+shuffle <- function(){
+    random <- sample(1:52, size = 52)
+    assign("deck", DECK[random, ], envir = globalenv())
+}
+shuffle()
+deal()
+deal()
+
+#Final code - Putting it all together ------
+setup <- function(deck) {
+    DECK <- deck
+    
+    DEAL <- function() {
+        card <- deck[1, ]
+        assign("deck", deck[-1, ], envir = parent.env(environment()))
+        card
+    }
+    
+    SHUFFLE <- function(){
+        random <- sample(1:52, size = 52)
+        assign("deck", DECK[random, ], envir = parent.env(environment()))
+    }
+    
+    list(deal = DEAL, shuffle = SHUFFLE)
+}
+
+cards <- setup(deck)
+deal <- cards$deal
+shuffle <- cards$shuffle
+
+#Can remove deck from global env now as deck is stored in the parent env
+rm(deck)
+
+shuffle()
+deal()
